@@ -2,10 +2,15 @@
 
 import React, { useRef, useState } from "react";
 import UploadFormInput from "./upload-form-input";
-import { file, z } from "zod";
+import { z } from "zod";
 import { useUploadThing } from "@/utils/uploadthing";
 import { toast } from "sonner";
-import { generatePdfSummary } from "@/actions/upload-actions";
+import {
+	generatePdfSummary,
+	storePdfSummaryAction,
+} from "@/actions/upload-actions";
+import { formatFileName } from "@/utils/format-title";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
 	file: z
@@ -23,11 +28,12 @@ const schema = z.object({
 export default function UploadForm() {
 	const formRef = useRef<HTMLFormElement>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const router = useRouter();
 
 	const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
 		onClientUploadComplete: (res) => {
 			// console.log("uploaded successfully!", res);
-			toast.success("File uploaded successfully!");
+			// toast.success("File uploaded successfully!");
 		},
 		onUploadError: (err) => {
 			// console.error("error occurred while uploading", err);
@@ -84,21 +90,36 @@ export default function UploadForm() {
 				return;
 			}
 			if (data) {
-				toast.success(
-					"Summary generated successfully. Saving your summary..."
-				);
+				let storeResult: any;
 				formRef.current?.reset();
-				// if (data.summary) {
-				// 	// Save the summary to the database
-				// }
+				if (data.summary) {
+					toast.success(
+						"Summary generated successfully. Saving your summary..."
+					);
+					// Save the summary to the database
+					storeResult = await storePdfSummaryAction({
+						// userId: response[0].userId,
+						fileUrl: response[0].ufsUrl,
+						summary: data.summary,
+						title: formatFileName(file.name),
+						fileName: file.name,
+					});
+					toast.success("✨ Summary saved successfully");
+
+					formRef.current?.reset();
+					// Redirect to the [id] summary page
+					router.push(`/summaries/${storeResult.data.id}`);
+					// return;
+				}
 			}
-			// Redirect to the [id] summary page
 		} catch (err) {
 			console.error("Error occurred", err);
 			formRef.current?.reset();
 			toast.error("Error occurred while uploading");
 			setIsLoading(false);
 			return;
+		} finally {
+			setIsLoading(false);
 		}
 	}
 	return (
