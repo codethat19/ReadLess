@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sommaire
 
-## Getting Started
+AI-powered PDF summarisation built with the **Next.js App Router**, **React 19** and **Tailwind CSS v4**. Upload any PDF and Sommaire will extract the text, send it to a Large Language Model (Gemini 1.5 Flash by default, falling back to GPT-4 o) and return an engaging, emoji-rich, markdown summary that you can read or copy in seconds.
 
-First, run the development server:
+![Sommaire hero screenshot](./public/window.svg)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+-   🔐 **Authentication** – password-less sign-in with [Clerk](https://clerk.com)
+-   📤 **Drag-and-drop upload** – handled by [UploadThing](https://uploadthing.com)
+-   🧠 **AI summarisation** – Google Gemini with automatic fallback to OpenAI
+-   🗄️ **Persistent storage** – Serverless Postgres on [Neon](https://neon.tech)
+-   📚 **History** – personal dashboard to view, copy or delete previous summaries
+-   🎨 **Beautiful UI** – Tailwind CSS, Radix UI primitives & dark-mode ready
+-   ⚡ **Blazing fast** – built on the latest Next.js (v15) using the App Router
+
+## 🏗️ Tech Stack
+
+| Layer       | Technology                                                          |
+| ----------- | ------------------------------------------------------------------- |
+| Front-end   | Next.js 15 / React 19, TypeScript, Tailwind CSS 4, Radix UI, Sonner |
+| Auth        | Clerk JS                                                            |
+| File upload | UploadThing                                                         |
+| AI / LLM    | Google Gemini 1.5 Flash, OpenAI GPT-4o                              |
+| Database    | Neon Serverless Postgres (SQL)                                      |
+| ORM         | Simple SQL tagged templates (`@neondatabase/serverless`)            |
+
+---
+
+## 🚀 Quick Start
+
+> **Prerequisites**: Node >= 18, npm / pnpm / yarn, a Postgres database (Neon recommended) and API keys for Clerk, Google Gemini and OpenAI.
+
+1. **Clone the repo**
+    ```bash
+    git clone https://github.com/your-username/sommaire.git && cd sommaire
+    ```
+2. **Install dependencies**
+    ```bash
+    npm install # or pnpm install / yarn
+    ```
+3. **Configure environment variables** – create a `.env.local` file in the project root:
+
+    ```env
+    # Clerk
+    CLERK_SECRET_KEY=sk_test_...
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+
+    # OpenAI
+    OPENAI_API_KEY=sk-...
+
+    # Google Gemini
+    GEMINI_API_KEY=...your-gemini-key...
+
+    # UploadThing
+    UPLOADTHING_SECRET=...
+    UPLOADTHING_APP_ID=...
+
+    # Database
+    DATABASE_URL="postgresql://user:password@host/database"
+    ```
+
+4. **Create the database schema** (for Neon copy–paste in the SQL editor):
+    ```sql
+    \i schema.sql
+    ```
+5. **Run the development server**
+    ```bash
+    npm run dev
+    # open http://localhost:3000
+    ```
+
+---
+
+## 🗂️ Project Structure
+
+```
+├─ actions/          # Server actions (form / API logic)
+├─ app/              # Next.js App Router routes
+│  ├─ (logged-in)/   # Auth-protected routes (dashboard, upload, summaries)
+│  └─ api/           # Route handlers (UploadThing)
+├─ components/       # Re-usable UI and page components
+├─ lib/              # Server-side helpers (DB, LLM, PDF utils)
+├─ utils/            # Client & shared utilities (prompts, formatters…)
+└─ schema.sql        # Postgres schema definition
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The codebase follows the **conventional Next.js App Router layout**: every folder inside `app/` is a route, server components by default, `page.tsx` files mark entrypoints. Auth-protected routes live in the `(logged-in)` group.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗️ Build & Deployment
 
-## Learn More
+Sommaire runs anywhere Next.js does – Vercel, Netlify, your own server. On Vercel, simply set the same environment variables from `.env.local` in the dashboard, add your Neon connection string and click _Deploy_.
 
-To learn more about Next.js, take a look at the following resources:
+The project relies on experimental React 19 and Next.js 15 beta features. If you deploy to production ensure you pin the same versions (see `package.json`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+1. Fork the repository
+2. Create a new branch: `git checkout -b feat/amazing-feature`
+3. Commit your changes: `git commit -m "feat: amazing feature"`
+4. Push to the branch: `git push origin feat/amazing-feature`
+5. Open a Pull Request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Please follow the existing code-style and run `npm run lint` before submitting.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📄 License
+
+This project is released under the [MIT](https://opensource.org/licenses/MIT) License.
