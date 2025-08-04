@@ -24,8 +24,6 @@ export default function DeleteButton({ summaryId }: DeleteButtonProps) {
 	const [isPending, startTransition] = useTransition();
 
 	const handleDelete = async () => {
-		// TODO: Delete Summary
-
 		// await deleteSummary(summaryId)
 		startTransition(async () => {
 			const result = await deleteSummaryAction(summaryId);
