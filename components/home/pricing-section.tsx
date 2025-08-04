@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRight, CheckIcon } from "lucide-react";
+import {
+	containerVariants,
+	itemVariants,
+	pricingPlans,
+	listVariants,
+} from "@/utils/constants";
+import { MotionDiv, MotionSection } from "../common/motion-wrapper";
 
 type PriceType = {
 	name: string;
@@ -12,36 +19,6 @@ type PriceType = {
 	priceId: string;
 };
 
-const plans = [
-	{
-		name: "Basic",
-		price: 9,
-		description: "For casual users",
-		items: [
-			"10 PDF summaries per month",
-			"Standard processing",
-			"Email support",
-		],
-		id: "basic",
-		paymentLink: "",
-		priceId: "",
-	},
-	{
-		name: "Pro",
-		price: 19,
-		description: "For professionals and teams",
-		items: [
-			"Unlimited PDF summaries",
-			"Priority processing",
-			"24/7 priority support",
-			"Markdown Export",
-		],
-		id: "pro",
-		paymentLink: "",
-		priceId: "",
-	},
-];
-
 const PricingCard = ({
 	name,
 	price,
@@ -51,7 +28,12 @@ const PricingCard = ({
 	paymentLink,
 }: PriceType) => {
 	return (
-		<div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300">
+		<MotionDiv
+			// variants={listVariants}
+
+			whileHover={{ scale: 1.05 }}
+			className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-300"
+		>
 			<div
 				className={cn(
 					"relative flex flex-col h-full gap-4 lg:gap-8 z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl",
@@ -99,25 +81,41 @@ const PricingCard = ({
 					</Link>
 				</div>
 			</div>
-		</div>
+		</MotionDiv>
 	);
 };
 
 export default function PricingSection() {
 	return (
-		<section className="relative overflow-hidden" id="pricing">
+		<MotionSection
+			variants={containerVariants}
+			initial="hidden"
+			whileInView={"visible"}
+			viewport={{ once: true, margin: "-100px" }}
+			className="relative overflow-hidden"
+			id="pricing"
+		>
 			<div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
-				<div className="flex items-center justify-center">
+				<MotionDiv className="flex items-center justify-center">
 					<h2 className="uppercase font-bold text-xl mb-8 text-rose-500">
 						Pricing
 					</h2>
-				</div>
-				<div className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
-					{plans.map((plan) => (
+				</MotionDiv>
+				<MotionDiv
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{
+						duration: 0.5,
+						delay: 0.3,
+					}}
+					// variants={listVariants}
+					className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8"
+				>
+					{pricingPlans.map((plan) => (
 						<PricingCard key={plan.id} {...plan} />
 					))}
-				</div>
+				</MotionDiv>
 			</div>
-		</section>
+		</MotionSection>
 	);
 }

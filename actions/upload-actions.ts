@@ -49,7 +49,7 @@ export async function generatePdfSummary(
 		let summary;
 
 		try {
-			summary = await generateSummaryFromGemini(pdfText);
+			// summary = await generateSummaryFromGemini(pdfText);
 			// console.log(`upload-actions: summary : ${{ summary }}`);
 			// toast.success("Summary generated successfully");
 		} catch (err) {
@@ -57,7 +57,7 @@ export async function generatePdfSummary(
 			// Call Gemini code
 			if (err instanceof Error && err.message === "RATE_LIMIT_EXCEEDED") {
 				try {
-					summary = await generateSummaryFromOpenAI(pdfText);
+					// summary = await generateSummaryFromOpenAI(pdfText);
 				} catch (geminiError) {
 					console.error(
 						"Gemini API failed after OpenAI quote exceeded",

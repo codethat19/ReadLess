@@ -1,0 +1,27 @@
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import UpgradeRequired from "@/components/common/upgrade-required";
+import { getSubscriptionStatus, hasActivePlan } from "@/lib/user";
+
+export default async function Layout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const user = await currentUser();
+
+	if (!user?.id) {
+		return redirect("/sign-in");
+	}
+
+	const hasActiveSubscription = await hasActivePlan(
+		user.emailAddresses[0].emailAddress
+	);
+
+	// // todo
+	// if (!hasActiveSubscription) {
+	// 	return <UpgradeRequired />;
+	// }
+
+	return <>{children}</>;
+}

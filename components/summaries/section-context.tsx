@@ -1,4 +1,6 @@
 import React from "react";
+import { MotionDiv, MotionP, MotionSpan } from "../common/motion-wrapper";
+import { containerVariants, itemVariants } from "@/utils/constants";
 
 export default function ContentSection({
 	title,
@@ -8,24 +10,37 @@ export default function ContentSection({
 	points: string[];
 }) {
 	return (
-		<div className="space-y-3 px-0 max-w-prose mx-auto">
+		<MotionDiv
+			variants={containerVariants}
+			key={points.join("")}
+			initial="hidden"
+			animate="visible"
+			exit="exit"
+			className="space-y-3"
+		>
 			{points.map((point, index) => {
 				// Split point into emoji (first token) and the rest of the sentence
 				const [emoji, ...rest] = point.split(" ");
 				return (
-					<div key={index} className="flex items-start gap-3">
+					<div key={index} className="flex items-center gap-3">
 						{/* Emoji bullet */}
-						<span className="text-xl select-none mt-1">
+						<MotionSpan
+							// variants={itemVariants}
+							className="text-xl select-none mt-1"
+						>
 							{emoji}
-						</span>
+						</MotionSpan>
 
 						{/* Point text */}
-						<p className="flex-1 leading-relaxed">
+						<MotionP
+							// variants={itemVariants}
+							className="flex-1 leading-relaxed"
+						>
 							{rest.join(" ")}
-						</p>
+						</MotionP>
 					</div>
 				);
 			})}
-		</div>
+		</MotionDiv>
 	);
 }

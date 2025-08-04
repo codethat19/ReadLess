@@ -11,6 +11,7 @@ import {
 } from "@/actions/upload-actions";
 import { formatFileName } from "@/utils/format-title";
 import { useRouter } from "next/navigation";
+import LoadingSkeleton from "./loading-skeleton";
 
 const schema = z.object({
 	file: z
@@ -129,6 +130,7 @@ export default function UploadForm() {
 				onSubmit={handleSubmit}
 				isLoading={isLoading}
 			/>
+			{isLoading && <LoadingSkeleton />}
 		</div>
 	);
 }
