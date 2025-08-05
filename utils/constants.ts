@@ -12,7 +12,7 @@ export const pricingPlans = [
 			"Email support",
 		],
 		id: "basic",
-		paymentLink: "https://buy.stripe.com/test_dRm7sLba6fAobcq8Np87K00",
+		paymentLink: "https://www.google.com/",
 		priceId: isDev ? "price_1Rs0RYFFDfMTjSeCPS6cDJAQ" : "",
 	},
 	{
