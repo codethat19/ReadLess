@@ -36,7 +36,7 @@ export default function CTASection() {
                         hover:to-slate-900 hover:text-white text-white transition-all duration-300 flex items-center justify-center"
 							>
 								<Link
-									href="/#pricing"
+									href="/dashboard"
 									className="flex items-center justify-center"
 								>
 									Get Started{" "}

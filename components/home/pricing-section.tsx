@@ -8,6 +8,7 @@ import {
 	listVariants,
 } from "@/utils/constants";
 import { MotionDiv, MotionSection } from "../common/motion-wrapper";
+import { currentUser } from "@clerk/nextjs/server";
 
 type PriceType = {
 	name: string;
@@ -17,6 +18,7 @@ type PriceType = {
 	id: string;
 	paymentLink: string;
 	priceId: string;
+	userId: string | null;
 };
 
 const PricingCard = ({
@@ -26,7 +28,9 @@ const PricingCard = ({
 	items,
 	id,
 	paymentLink,
+	userId,
 }: PriceType) => {
+	const isUserSubscribed = userId ? true : false;
 	return (
 		<MotionDiv
 			// variants={listVariants}
@@ -69,7 +73,7 @@ const PricingCard = ({
 				</div>
 				<div className="space-y-2 flex justify-center w-full">
 					<Link
-						href={paymentLink}
+						href={userId ? paymentLink : "/sign-in"}
 						passHref
 						legacyBehavior
 						className={cn(
@@ -80,7 +84,7 @@ const PricingCard = ({
 						)}
 					>
 						<a
-							href={paymentLink}
+							href={userId ? paymentLink : "/sign-in"}
 							className={cn(
 								"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
 								id === "pro"
@@ -97,7 +101,10 @@ const PricingCard = ({
 	);
 };
 
-export default function PricingSection() {
+export default async function PricingSection() {
+	const user = await currentUser();
+	const userId = user?.id || null;
+
 	return (
 		<MotionSection
 			variants={containerVariants}
@@ -124,7 +131,7 @@ export default function PricingSection() {
 					className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8"
 				>
 					{pricingPlans.map((plan) => (
-						<PricingCard key={plan.id} {...plan} />
+						<PricingCard key={plan.id} {...plan} userId={userId} />
 					))}
 				</MotionDiv>
 			</div>
