@@ -13,7 +13,7 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-	title: "Sommaire - AI-Powered PDF Summarization",
+	title: "ReadLess - AI-Powered PDF Summarization",
 	description:
 		"Save hours of reading time by summarizing your PDFs into clear, accurate summaries with AI",
 };

@@ -8,6 +8,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import EmptySummaryState from "@/components/summaries/empty-summary-state";
 import { hasReachedUploadLimit } from "@/lib/user";
+import PaymentStatus from "@/components/dashboard/payment-status";
 
 export default async function DashboardPage() {
 	const user = await currentUser();
@@ -33,6 +34,7 @@ export default async function DashboardPage() {
 
 	return (
 		<main className="min-h-screen">
+			<PaymentStatus />
 			<BgGradient className="from-emerald-200 via-teal-200 to-cyan-200" />
 			<div className="container mx-auto flex flex-col gap-4">
 				<div className="px-2 py-12 sm:py-24">

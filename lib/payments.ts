@@ -36,6 +36,7 @@ export async function handleCheckoutSessionCompleted({
 	const customerId = session.customer as string;
 	const customer = await stripe.customers.retrieve(customerId);
 	const priceId = session.line_items?.data[0]?.price?.id;
+	const userId = session.metadata?.userId;
 
 	const sql = await getDbConnection();
 
@@ -49,6 +50,7 @@ export async function handleCheckoutSessionCompleted({
 			customerId,
 			priceId,
 			status: "active",
+			userId: userId,
 		});
 
 		await createPayment({
@@ -67,6 +69,7 @@ async function createOrUpdateUser({
 	customerId,
 	priceId,
 	status,
+	userId,
 }: {
 	sql: any;
 	email: string;
@@ -74,6 +77,7 @@ async function createOrUpdateUser({
 	customerId: string;
 	priceId: string;
 	status: string;
+	userId?: string;
 }) {
 	try {
 		// Check if a user with this email already exists
@@ -82,11 +86,11 @@ async function createOrUpdateUser({
 
 		if (existingUsers.length === 0) {
 			// No record found – insert new user
-			await sql`INSERT INTO users (email, full_name, customer_id, price_id, status)
-                VALUES (${email}, ${fullName}, ${customerId}, ${priceId}, ${status})`;
+			await sql`INSERT INTO users (email, full_name, customer_id, price_id, status, clerk_user_id)
+                VALUES (${email}, ${fullName}, ${customerId}, ${priceId}, ${status}, ${userId || null})`;
 		} else {
 			// User exists – update relevant fields in case they changed
-			await sql`UPDATE users SET full_name = ${fullName}, customer_id = ${customerId}, price_id = ${priceId}, status = ${status} WHERE email = ${email}`;
+			await sql`UPDATE users SET full_name = ${fullName}, customer_id = ${customerId}, price_id = ${priceId}, status = ${status}, clerk_user_id = ${userId || null} WHERE email = ${email}`;
 		}
 	} catch (error) {
 		console.error("Error creating or updating user", error);

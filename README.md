@@ -1,8 +1,8 @@
-# Sommaire
+# ReadLess
 
-AI-powered PDF summarisation built with the **Next.js App Router**, **React 19** and **Tailwind CSS v4**. Upload any PDF and Sommaire will extract the text, send it to a Large Language Model (Gemini 1.5 Flash by default, falling back to GPT-4 o) and return an engaging, emoji-rich, markdown summary that you can read or copy in seconds.
+AI-powered PDF summarisation built with the **Next.js App Router**, **React 19** and **Tailwind CSS v4**. Upload any PDF and ReadLess will extract the text, send it to a Large Language Model (Gemini 1.5 Flash by default, falling back to GPT-4 o) and return an engaging, emoji-rich, markdown summary that you can read or copy in seconds.
 
-![Sommaire hero screenshot](./public/window.svg)
+![ReadLess hero screenshot](./public/window.svg)
 
 ---
 
@@ -93,7 +93,7 @@ The codebase follows the **conventional Next.js App Router layout**: every folde
 
 ## 🏗️ Build & Deployment
 
-Sommaire runs anywhere Next.js does – Vercel, Netlify, your own server. On Vercel, simply set the same environment variables from `.env.local` in the dashboard, add your Neon connection string and click _Deploy_.
+ReadLess runs anywhere Next.js does – Vercel, Netlify, your own server. On Vercel, simply set the same environment variables from `.env.local` in the dashboard, add your Neon connection string and click _Deploy_.
 
 The project relies on experimental React 19 and Next.js 15 beta features. If you deploy to production ensure you pin the same versions (see `package.json`).
 

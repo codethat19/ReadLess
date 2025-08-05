@@ -15,7 +15,7 @@ export default function Footer() {
 						<div className="flex items-center gap-2 mb-4">
 							<FileText className="w-6 h-6 text-rose-600" />
 							<span className="font-bold text-xl text-gray-900">
-								Sommaire
+								ReadLess
 							</span>
 						</div>
 						<p className="text-gray-600 mb-6 max-w-md">
@@ -24,13 +24,6 @@ export default function Footer() {
 							extract key insights instantly.
 						</p>
 						<div className="flex space-x-4">
-							{/* <Link
-								href="https://twitter.com/sommaire"
-								className="text-gray-400 hover:text-rose-600 transition-colors duration-200"
-								aria-label="Twitter"
-							>
-								<Twitter className="w-5 h-5" />
-							</Link> */}
 							<Link
 								href="https://www.linkedin.com/in/aayush-rastogi"
 								className="text-gray-400 hover:text-rose-600 transition-colors duration-200"
@@ -148,7 +141,7 @@ export default function Footer() {
 				{/* Bottom Section */}
 				<div className="border-t border-gray-200 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
 					<p className="text-gray-500 text-sm">
-						© {currentYear} Sommaire. All rights reserved.
+						© {currentYear} ReadLess. All rights reserved.
 					</p>
 					<p className="text-gray-500 text-sm flex items-center gap-1 mt-2 sm:mt-0">
 						Made with <Heart className="w-4 h-4 text-rose-500" />{" "}

@@ -9,6 +9,7 @@ import {
 } from "@/utils/constants";
 import { MotionDiv, MotionSection } from "../common/motion-wrapper";
 import { currentUser } from "@clerk/nextjs/server";
+import PaymentButton from "../common/payment-button";
 
 type PriceType = {
 	name: string;
@@ -28,6 +29,7 @@ const PricingCard = ({
 	items,
 	id,
 	paymentLink,
+	priceId,
 	userId,
 }: PriceType) => {
 	const isUserSubscribed = userId ? true : false;
@@ -87,19 +89,20 @@ const PricingCard = ({
 							<ArrowRight size={18} />
 						</Link>
 					) : (
-						<Link
-							href={userId ? paymentLink : "/sign-in"}
-							passHref
-							legacyBehavior
-							className={cn(
-								"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
-								id === "pro"
-									? "border-rose-900"
-									: "border-rose-100 from-rose-400 to-rose-500"
-							)}
-						>
-							<a
-								href={userId ? paymentLink : "/sign-in"}
+						userId ? (
+							<PaymentButton
+								priceId={priceId}
+								className={cn(
+									id === "pro"
+										? "border-rose-900"
+										: "border-rose-100 from-rose-400 to-rose-500"
+								)}
+							>
+								Buy Now
+							</PaymentButton>
+						) : (
+							<Link
+								href="/sign-in"
 								className={cn(
 									"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
 									id === "pro"
@@ -107,9 +110,9 @@ const PricingCard = ({
 										: "border-rose-100 from-rose-400 to-rose-500"
 								)}
 							>
-								Buy Now <ArrowRight size={18} />
-							</a>
-						</Link>
+								Sign In to Purchase <ArrowRight size={18} />
+							</Link>
+						)
 					)}
 				</div>
 			</div>
