@@ -37,7 +37,7 @@ AI-powered PDF summarisation built with the **Next.js App Router**, **React 19**
 
 1. **Clone the repo**
     ```bash
-    git clone https://github.com/your-username/sommaire.git && cd sommaire
+    git clone https://github.com/codethat19/ReadLess.git && cd ReadLess
     ```
 2. **Install dependencies**
     ```bash
