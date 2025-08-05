@@ -40,8 +40,8 @@ export default function UploadForm() {
 			// console.error("error occurred while uploading", err);
 			toast.error(`Error occurred while uploading: ${err.message}`);
 		},
-		onUploadBegin: (file) => {
-			// console.log("upload has begun for", file);
+		onUploadBegin: (data) => {
+			console.log("upload has begun for", data);
 			toast.info("Uploading file...");
 		},
 	});
