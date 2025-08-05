@@ -6,6 +6,8 @@ import Footer from "@/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
+const ORIGIN_URL = "https://readless.vercel.app";
+
 const fontSans = FontSans({
 	variable: "--font-sans",
 	subsets: ["latin"],
@@ -16,6 +18,17 @@ export const metadata: Metadata = {
 	title: "ReadLess - AI-Powered PDF Summarization",
 	description:
 		"Save hours of reading time by summarizing your PDFs into clear, accurate summaries with AI",
+	openGraph: {
+		images: [
+			{
+				url: "/readless.png",
+			},
+		],
+	},
+	metadataBase: new URL(ORIGIN_URL),
+	alternates: {
+		canonical: ORIGIN_URL,
+	},
 };
 
 export default function RootLayout({
