@@ -1,16 +1,22 @@
 import { Variants } from "motion/react";
 import { isDev } from "./helpers";
+import { nullable } from "zod";
 
 export const pricingPlans = [
+	{
+		name: "Free",
+		price: 0,
+		description: "For trial use",
+		items: ["5 PDF summaries", "Standard processing", "Email support"],
+		id: "free",
+		paymentLink: "",
+		priceId: "free_tier",
+	},
 	{
 		name: "Basic",
 		price: 9,
 		description: "For casual users",
-		items: [
-			"10 PDF summaries per month",
-			"Standard processing",
-			"Email support",
-		],
+		items: ["10 PDF summaries", "Standard processing", "Email support"],
 		id: "basic",
 		paymentLink: isDev
 			? "https://buy.stripe.com/test_dRm7sLba6fAobcq8Np87K00"

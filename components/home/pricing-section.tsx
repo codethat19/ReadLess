@@ -54,15 +54,19 @@ const PricingCard = ({
 						</p>
 					</div>
 				</div>
-				<div className="flex gap-2">
-					<p className="text-5xl tracking-tight font-extrabold">
-						${price}
-					</p>
-					<div className="flex flex-col justify-end mb-[4px]">
-						<p className="text-xs uppercase font-semibold">USD</p>
-						<p className="text-xs">/month</p>
+				{id !== "free" && (
+					<div className="flex gap-2">
+						<p className="text-5xl tracking-tight font-extrabold">
+							${price}
+						</p>
+						<div className="flex flex-col justify-end mb-[4px]">
+							<p className="text-xs uppercase font-semibold">
+								USD
+							</p>
+							<p className="text-xs">/month</p>
+						</div>
 					</div>
-				</div>
+				)}
 				<div className="space-y-2.5 leading-relaxed text-base flex-1">
 					{items.map((item, idx) => (
 						<li key={idx} className="flex items-center gap-2">
@@ -72,19 +76,21 @@ const PricingCard = ({
 					))}
 				</div>
 				<div className="space-y-2 flex justify-center w-full">
-					<Link
-						href={userId ? paymentLink : "/sign-in"}
-						passHref
-						legacyBehavior
-						className={cn(
-							"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
-							id === "pro"
-								? "border-rose-900"
-								: "border-rose-100 from-rose-400 to-rose-500"
-						)}
-					>
-						<a
+					{id === "free" ? (
+						<Link
+							href={userId ? "/dashboard" : "/sign-in"}
+							className={cn(
+								"w-full rounded-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-700 text-white border-2 py-2 border-green-700"
+							)}
+						>
+							{userId ? "Go to Dashboard" : "Get Started Free"}{" "}
+							<ArrowRight size={18} />
+						</Link>
+					) : (
+						<Link
 							href={userId ? paymentLink : "/sign-in"}
+							passHref
+							legacyBehavior
 							className={cn(
 								"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
 								id === "pro"
@@ -92,9 +98,19 @@ const PricingCard = ({
 									: "border-rose-100 from-rose-400 to-rose-500"
 							)}
 						>
-							Buy Now <ArrowRight size={18} />
-						</a>
-					</Link>
+							<a
+								href={userId ? paymentLink : "/sign-in"}
+								className={cn(
+									"w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-rose-800 to-rose-500 hover:from-rose-500 hover:to-rose-800 text-white border-2 py-2",
+									id === "pro"
+										? "border-rose-900"
+										: "border-rose-100 from-rose-400 to-rose-500"
+								)}
+							>
+								Buy Now <ArrowRight size={18} />
+							</a>
+						</Link>
+					)}
 				</div>
 			</div>
 		</MotionDiv>

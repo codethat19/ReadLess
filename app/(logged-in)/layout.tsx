@@ -14,13 +14,13 @@ export default async function Layout({
 		return redirect("/sign-in");
 	}
 
-	const hasActiveSubscription = await hasActivePlan(
-		user.emailAddresses[0].emailAddress
-	);
+	// const hasActiveSubscription = await hasActivePlan(
+	// 	user.emailAddresses[0].emailAddress
+	// );
 
-	if (!hasActiveSubscription) {
-		return <UpgradeRequired />;
-	}
+	// if (!hasActiveSubscription) {
+	// 	return <UpgradeRequired />;
+	// }
 
 	return <>{children}</>;
 }
