@@ -2,7 +2,7 @@
 
 AI-powered PDF summarisation built with the **Next.js App Router**, **React 19** and **Tailwind CSS v4**. Upload any PDF and ReadLess will extract the text, send it to a Large Language Model (Gemini 1.5 Flash by default, falling back to GPT-4 o) and return an engaging, emoji-rich, markdown summary that you can read or copy in seconds.
 
-![ReadLess hero screenshot](./public/window.svg)
+![ReadLess hero screenshot](./public/readless.png)
 
 ---
 
@@ -13,6 +13,7 @@ AI-powered PDF summarisation built with the **Next.js App Router**, **React 19**
 -   🧠 **AI summarisation** – Google Gemini with automatic fallback to OpenAI
 -   🗄️ **Persistent storage** – Serverless Postgres on [Neon](https://neon.tech)
 -   📚 **History** – personal dashboard to view, copy or delete previous summaries
+-   💳 **Subscription management** – Stripe-powered payments with seamless redirect flow
 -   🎨 **Beautiful UI** – Tailwind CSS, Radix UI primitives & dark-mode ready
 -   ⚡ **Blazing fast** – built on the latest Next.js (v15) using the App Router
 
@@ -26,12 +27,13 @@ AI-powered PDF summarisation built with the **Next.js App Router**, **React 19**
 | AI / LLM    | Google Gemini 1.5 Flash, OpenAI GPT-4o                              |
 | Database    | Neon Serverless Postgres (SQL)                                      |
 | ORM         | Simple SQL tagged templates (`@neondatabase/serverless`)            |
+| Payments    | Stripe Checkout with webhook handling                               |
 
 ---
 
 ## 🚀 Quick Start
 
-> **Prerequisites**: Node >= 18, npm / pnpm / yarn, a Postgres database (Neon recommended) and API keys for Clerk, Google Gemini and OpenAI.
+> **Prerequisites**: Node >= 18, npm / pnpm / yarn, a Postgres database (Neon recommended) and API keys for Clerk, Google Gemini, OpenAI, and Stripe.
 
 1. **Clone the repo**
     ```bash
@@ -60,6 +62,11 @@ AI-powered PDF summarisation built with the **Next.js App Router**, **React 19**
 
     # Database
     DATABASE_URL="postgresql://user:password@host/database"
+
+    # Stripe (for payments)
+    STRIPE_SECRET_KEY=sk_test_...
+    STRIPE_WEBHOOK_SECRET=whsec_...
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
     ```
 
 4. **Create the database schema** (for Neon copy–paste in the SQL editor):
@@ -88,6 +95,22 @@ AI-powered PDF summarisation built with the **Next.js App Router**, **React 19**
 ```
 
 The codebase follows the **conventional Next.js App Router layout**: every folder inside `app/` is a route, server components by default, `page.tsx` files mark entrypoints. Auth-protected routes live in the `(logged-in)` group.
+
+### Payment Flow
+
+The application implements a seamless payment flow using Stripe Checkout:
+
+1. **Payment Initiation**: Users click "Buy Now" on pricing cards, which creates a Stripe checkout session
+2. **Redirect Handling**: Payment opens in a new tab while keeping the original tab open
+3. **Success/Cancel Handling**: After payment completion, the original tab refreshes and shows status messages
+4. **Webhook Processing**: Stripe webhooks update user subscription status in the database
+
+Key components:
+
+-   `PaymentButton` - Client component handling payment initiation
+-   `PaymentStatus` - Shows success/cancel messages on dashboard
+-   `/api/create-checkout-session` - Creates Stripe checkout sessions
+-   `/api/payments` - Webhook handler for payment events
 
 ---
 
